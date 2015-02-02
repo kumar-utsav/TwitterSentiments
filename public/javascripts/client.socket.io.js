@@ -21,7 +21,7 @@ jQuery(function($){
 
         var text = data.text.toLowerCase(); // convert the text of the tweets to lower case.
 
-        if(text.indexOf("love") != -1 && (i % 20) == 0){
+        if(text.indexOf("love") != -1 && (i % 50) == 0){
             lovetweetlist.prepend('<img src=' + data.image + '></img>').prepend('<li>' + data.user + ': ' + text + '</li>'); // adds the love tweets to the lovetweetlist element
 
         }
