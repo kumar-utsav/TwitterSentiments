@@ -36,7 +36,6 @@ sio.sockets.on('connection', function(socket){ //tasks to be performed on receiv
 
 	twit.stream('statuses/filter', {track: ['love', 'hate']}, function(stream){  // filter out the tweets containing love or hate words.
 		stream.on('data', function(data){
-			
 			var text = data.text.toLowerCase();
 			if(text.indexOf("love")!=-1){  // check for love tweets and increment the love and total counts.
 				love++;
@@ -48,15 +47,13 @@ sio.sockets.on('connection', function(socket){ //tasks to be performed on receiv
 			}
 			
 			socket.volatile.emit('tweet', {  // filter out user's name and tweet from the streaming data and emit to the client along with the love and hate percentages and the total tweet count.
-				user: data.user.screen_name,
+                image: data.user.profile_image_url_https,
+                user: data.user.screen_name,
 				text: data.text,
 				love: (love/total)*100,
 				hate: (hate/total)*100,
 				totalCount: total
 			});
-
-			
-
 		});
 	});
 
@@ -64,9 +61,6 @@ sio.sockets.on('connection', function(socket){ //tasks to be performed on receiv
 		console.log('Web client disconnected');
 	});
 });
-
-
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -113,6 +107,5 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
 
 module.exports = app;

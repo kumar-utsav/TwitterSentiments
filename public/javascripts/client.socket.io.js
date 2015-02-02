@@ -11,18 +11,23 @@ jQuery(function($){
     var chart = new CanvasJS.Chart("chart", { // instantiate the CanvasJS object.
         theme: "theme2",
         animationEnabled: true
-    });    
+    });   
+
+    var i = 0;
 
 	socket.on('tweet', function(data){  // receives the twitter streaming data from the server.
-		
+	
+        i++;    
+
         var text = data.text.toLowerCase(); // convert the text of the tweets to lower case.
 
-        if(text.indexOf("love") != -1){
-            lovetweetlist.prepend('<li>' + data.user + ': ' + text + '</li>'); // adds the love tweets to the lovetweetlist element
+        if(text.indexOf("love") != -1 && (i % 20) == 0){
+            lovetweetlist.prepend('<img src=' + data.image + '></img>').prepend('<li>' + data.user + ': ' + text + '</li>'); // adds the love tweets to the lovetweetlist element
+
         }
 
-        if(text.indexOf("hate") != -1){
-            hatetweetlist.prepend('<li>' + data.user + ': ' + text + '</li>'); // adds the hate tweets to the lovetweetlist element
+        if(text.indexOf("hate") != -1 && (i % 10 == 0)){
+            hatetweetlist.prepend('<img src=' + data.image + '></img>').prepend('<li>' + data.user + ': ' + text + '</li>'); // adds the hate tweets to the lovetweetlist element
         }
         
         
@@ -40,8 +45,6 @@ jQuery(function($){
 
         chart.options.data = [];
         chart.options.data.push(config); 
-        
         chart.render(); // create the chart.
-
 	});
 });
